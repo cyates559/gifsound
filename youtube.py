@@ -17,7 +17,6 @@ def get_embed_url(main_url):
 	elif 'youtu.be' in main_url:
 		r = urllib.parse.urlparse(main_url)
 		id = r.path.replace('/', '')
-		print(id)
 
 	# Extract from regular youtube url
 	elif 'youtube.com/watch?' in main_url:
