@@ -10,25 +10,28 @@ def get_embed_url(main_url):
 
 	id=None
 	# User gave us the url we are looking for, so we are done here.
-	if 'https://youtube.com/embed/' in main_url:
+	if 'youtube.com/embed/' in main_url:
 		return main_url
 
-	# We need to extract the id from the url to produce the embed url
+	# Extract from mini url
 	elif 'youtu.be' in main_url:
 		r = urllib.parse.urlparse(main_url)
 		id = r.path.replace('/', '')
+		print(id)
 
-	elif 'youtube.com/watch?v=' in main_url:
+	# Extract from regular youtube url
+	elif 'youtube.com/watch?' in main_url:
 		r = urllib.parse.urlparse(main_url)
 		id = urllib.parse.parse_qs(r.query)['v'][0]
 
-	if id == None: # Error: Couldn't parse YouTube Url
+	# Error: Couldn't parse YouTube Url
+	if id == None:
 		return None
 
-	return f'https://youtube.com/embed/{id}'
+	return f'https://www.youtube.com/embed/{id}'
 
 
 # Some tests, these should all print the same URL
 print(get_embed_url('https://www.youtu.be/8y7XGmORIXM?t=1m'))
-print(get_embed_url('https://www.youtube.com/watch?v=8y7XGmORIXM'))
-print(get_embed_url('https://www.youtube.com/watch?v=8y7XGmORIXM&start=1'))
+print(get_embed_url('https://www.youtube.com/embed/8y7XGmORIXM?t=1m'))
+print(get_embed_url('https://www.youtube.com/watch?randomarg=1&v=8y7XGmORIXM&anotherrandomarg=1'))
