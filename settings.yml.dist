@@ -1,0 +1,26 @@
+development:
+  mysql:
+    host:
+    user:
+    password:
+    db:
+    engine: dialect+driver://username:password@host:port/database
+
+  api_keys:
+    internal_api:
+    giphy_api:
+  other:
+    debug: True
+
+production:
+  mysql:
+    host:
+    user:
+    password:
+    db:
+    engine: dialect+driver://username:password@host:port/database
+  api_keys:
+    internal_api:
+    giphy_api:
+  other:
+    debug: false
