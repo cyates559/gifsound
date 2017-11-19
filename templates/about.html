@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+{% block title %}About{% endblock %}
+{% block content %}
+    <br><br>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-8 blog-main">
+                <div class="blog-post">
+                    <h1 class="blog-post-title">The Creators</h1>
+                    <hr>
+                    <h2>Carsen Yates</h2>
+                    <p>Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. Duis mollis, est non
+                        commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Morbi leo risus,
+                        porta ac consectetur ac, vestibulum at eros.</p>
+                    <p>Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</p>
+                    <p>Aenean lacinia bibendum nulla sed consectetur. Etiam porta sem malesuada magna mollis euismod.
+                        Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa.</p>
+                    <br>
+                    <h2>Erick Shaffer</h2>
+                    <p>Erick Shaffer is a junior at California State University Monterey Bay. He is pursing a bachelor's
+                        degree in computer science with a concentration in software engineering. His background is in
+                        front end development and DevOps.
+                        Erick currently works at Intel as a software engineer intern.</p>
+                    <p>Outside of school Erick enjoys participating in Hackathons. He recently came in second place in
+                        the Monterey Startup Hackathon. Him and his team created an application to send certified first
+                        responders to the scene of an accident. If you would like to learn more, click here. Erick also
+                        like
+                        to compete in competitive programming, which he
+                        recently placed top 10 in the ICPC division 2 Berkley Site.</p>
+                </div>
+                <br>
+                <br>
+                <div class="blog-post">
+                    <h2 class="blog-post-title">Technology Used</h2>
+                    <hr>
+                    <p>This project was created using the following technology</p>
+                    <ul>
+                        <li>Python</li>
+                        <li>Flask</li>
+                        <li>SQL-Alchemy</li>
+                        <li>Bootstrap</li>
+                        <li>PopperJs</li>
+                        <li>jQuery</li>
+                    </ul>
+                    <p>Libraries such as <em>url lib</em> were used for parsing Youtube urls. This allowed for 3
+                        different version of a link for a YouTube video to be used for the gifsound.</p>
+                    <p>Amazon Web Services RDS for hosting database.</p>
+                    <p>The Giphy API for displaying GIF suggestions on the homepage.</p>
+                </div>
+                <nav class="blog-pagination">
+                    <a class="btn btn-outline-primary" href="/">Home</a>
+                </nav>
+            </div>
+            <div class="col-sm-3 offset-sm-1 blog-sidebar">
+                <div class="sidebar-module sidebar-module-inset">
+                    <h4>About</h4>
+                    <p>This project was created by <em>Carsen Yates</em> and <em>Erick Shaffer</em>. This was inspired
+                        by the website gifsound.com and was recreated for education purposes. </p>
+                </div>
+                <br>
+                <div class="sidebar-module">
+                    <h4>Topics</h4>
+                    <ol class="list-unstyled">
+                        <li><a href="#">About Carsen Yates</a></li>
+                        <li><a href="#">About Erick Shaffer</a></li>
+                        <li><a href="#">Technologies</a></li>
+                    </ol>
+                </div>
+                <br>
+                <div class="sidebar-module">
+                    <h4>Follow us</h4>
+                    <p>Carsen</>
+                    <ol class="list-unstyled">
+                        <li><a href="#">GitHub</a></li>
+                        <li><a href="#">Twitter</a></li>
+                        <li><a href="#">Facebook</a></li>
+                    </ol>
+                    <p>Erick</p>
+                    <ol class="list-unstyled">
+                        <li><a href="#">GitHub</a></li>
+                        <li><a href="#">Twitter</a></li>
+                        <li><a href="#">Facebook</a></li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -6,28 +6,28 @@
 
 import urllib.parse
 
+
 def get_embed_url(main_url):
+    id = None
+    # User gave us the url we are looking for, so we are done here.
+    if 'youtube.com/embed/' in main_url:
+        return main_url
 
-	id=None
-	# User gave us the url we are looking for, so we are done here.
-	if 'youtube.com/embed/' in main_url:
-		return main_url
+    # Extract from mini url
+    elif 'youtu.be' in main_url:
+        r = urllib.parse.urlparse(main_url)
+        id = r.path.replace('/', '')
 
-	# Extract from mini url
-	elif 'youtu.be' in main_url:
-		r = urllib.parse.urlparse(main_url)
-		id = r.path.replace('/', '')
+    # Extract from regular youtube url
+    elif 'youtube.com/watch?' in main_url:
+        r = urllib.parse.urlparse(main_url)
+        id = urllib.parse.parse_qs(r.query)['v'][0]
 
-	# Extract from regular youtube url
-	elif 'youtube.com/watch?' in main_url:
-		r = urllib.parse.urlparse(main_url)
-		id = urllib.parse.parse_qs(r.query)['v'][0]
+    # Error: Couldn't parse YouTube Url
+    if id == None:
+        return None
 
-	# Error: Couldn't parse YouTube Url
-	if id == None:
-		return None
-
-	return f'https://www.youtube.com/embed/{id}'
+    return f'https://www.youtube.com/embed/{id}'
 
 
 # Some tests, these should all print the same URL
