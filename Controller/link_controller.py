@@ -1,5 +1,5 @@
 from Controller.session_controller import *
-from Model.link_model import *
+from Model.models import *
 
 
 def create_link_table():
@@ -8,13 +8,19 @@ def create_link_table():
 
 def get_all_user_links(user_id):
     session = get_session()
-    link_ids = session.query(Link).filter(Link.user_id == user_id)
+    try:
+        link_ids = session.query(Link).filter(Link.user_id == user_id)
+    except exc.SQLAlchemyError:
+        return False
     return link_ids
 
 
 def get_all_links():
     session = get_session()
-    links = session.query(Link, Link.name, Link.link, Link.views)
+    try:
+        links = session.query(Link, Link.name, Link.link, Link.views)
+    except exc.SQLAlchemyError:
+        return False
     return links
 
 
@@ -33,9 +39,10 @@ def create_link(name, user_id, full_link, gif_link, yt_link):
     link.user_id = user_id
     link.full_link = full_link
     link.gif_link = gif_link
-    # link.yt_link = yt_link
-    # try:
-    #     session_commit(link)
-    # except exc.SQLAlchemyError:
-    #     return False
+    link.yt_link = yt_link
+    try:
+        session_commit(link)
+        return True
+    except exc.SQLAlchemyError:
+        return False
 
