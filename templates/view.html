@@ -1,7 +1,7 @@
 <!-- 
 AUTHORS: Erick Shaffer, Carsen Yates
 DATE: 11/14/2017
-PURPOSE: This is an example page
+PURPOSE: This file is for view gif + sound combinations
 
 Flask Bootstrap Usage: https://pythonhosted.org/Flask-Bootstrap/basic-usage.html
 
@@ -11,10 +11,17 @@ Flask Bootstrap Usage: https://pythonhosted.org/Flask-Bootstrap/basic-usage.html
 
 {% block title %}This is an example page{% endblock %}
 
-{% endblock %}
-
 {% block content %}
 
-<h1>Hello, Bootstrap</h1>
+<img src={{ gif }} />
+<iframe
+	width="560"
+	height="315"
+	src={{ video }}
+	frameborder="0" 
+	<!-- allowfullscreen -->
+>
+	
+</iframe>
 
 {% endblock %}
