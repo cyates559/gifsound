@@ -7,7 +7,7 @@ from config import settings
 
 def get_engine():
     return create_engine(
-        settings['development']['mysql']['engine'], echo=settings['development']['other']['debug'])
+        settings['development']['mysql']['engine'], echo=settings['development']['mysql']['engine_debug'])
 
 
 def session_commit(entry):
