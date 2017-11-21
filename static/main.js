@@ -1,14 +1,40 @@
-// specify the columns
+$(function requestLinks() {
+    $.ajax({
+        type: "GET",
+        url: "/api/links/somekeyzz",
+        contentType: "application/json; charset=utf-8",
+        success: function (data) {
+            createColumnDef(JSON.parse(data));
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            alert(errorThrown);
+        }
+    });
+});
+
+function createColumnDef(data) {
+    for (var i = 0; i < data.length; i++) {
+        rowData.push({
+            name: data[i].name,
+            link: data[i].full_link,
+            views: data[i].views,
+            time_created: data[i].time_created
+        });
+    }
+    console.log(rowData)
+    console.log(data.length)
+    console.log(data[0].name)
+    var eGridDiv = document.querySelector('#myGrid');
+    new agGrid.Grid(eGridDiv, gridOptions);
+}
+var rowData = [];
+
+// define columns and grid options
 var columnDefs = [
     {headerName: "Name", field: "name"},
     {headerName: "Link", field: "link"},
-    {headerName: "Views", field: "views"}
-];
-
-var rowData = [
-    {name: "Cat Meme", link: "www.example.com", views: 35000},
-    {name: "LOL", link: "www.gs/api/yay", views: 32000},
-    {name: "Doctors HATE HIM!", link: "www.google.com", views: 72000}
+    {headerName: "views", field: "views"},
+    {headerName: "Date Added", field: "time_created"}
 ];
 
 var gridOptions = {
@@ -17,7 +43,7 @@ var gridOptions = {
     enableFilter: true,
     enableSorting: true,
     animateRows: true,
-    sortingOrder: ['desc','asc',null],
+    sortingOrder: ['desc', 'asc', null],
     onGridReady: function () {
         gridOptions.api.sizeColumnsToFit();
     }
@@ -29,8 +55,6 @@ function selectAllRows() {
 
 document.addEventListener("DOMContentLoaded", function () {
     // lookup the container we want the Grid to use
-    var eGridDiv = document.querySelector('#myGrid');
 
-    // create the grid passing in the div to use together with the columns & data we want to use
-    new agGrid.Grid(eGridDiv, gridOptions);
+
 });

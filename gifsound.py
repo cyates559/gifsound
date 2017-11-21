@@ -79,14 +79,17 @@ def create_tables(api_key):
 
 @app.route('/testview/')
 def test_view_combo():
-    return redirect(url_for('view_combo', gif_url='https://media4.giphy.com/avatars/100soft/WahNEDdlGjRZ.gif', yt_id='Hug0rfFC_L8'))
+    return redirect(
+        url_for('view_combo', gif_url='https://media4.giphy.com/avatars/100soft/WahNEDdlGjRZ.gif', yt_id='Hug0rfFC_L8'))
+
 
 @app.route('/view/<path:gif_url>/<yt_id>/')
 def view_combo(gif_url, yt_id):
-    showinfo = 1 # Enable Title and video controls
-    rel = 0 # Uhh I don't know
-    start = 0 # starting point of video
-    return render_template('view.html', gif=gif_url, video=f'https://www.youtube.com/embed/{yt_id}?rel={rel}&amp;showinfo={showinfo}&amp;start={start}')
+    showinfo = 1  # Enable Title and video controls
+    rel = 0  # Uhh I don't know
+    start = 0  # starting point of video
+    return render_template('view.html', gif=gif_url,
+                           video=f'https://www.youtube.com/embed/{yt_id}?rel={rel}&amp;showinfo={showinfo}&amp;start={start}')
 
 
 if __name__ == '__main__':

@@ -8,6 +8,8 @@ Flask Bootstrap Usage: https://pythonhosted.org/Flask-Bootstrap/basic-usage.html
 -->
 {% extends 'base.html' %}
 {% block title %}About{% endblock %}
+{% block aboutnav %}<span class="sr-only">(current)</span>{% endblock %}
+{% block activeabout %}active{% endblock %}
 {% block content %}
     <br><br>
     <div class="container">

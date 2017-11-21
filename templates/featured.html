@@ -7,8 +7,11 @@ Flask Bootstrap Usage: https://pythonhosted.org/Flask-Bootstrap/basic-usage.html
 
 -->
 {% extends 'base.html' %}
+{% block activefeatured %}active{% endblock %}
 {% block title %}Featured{% endblock %}
+{% block featurednav %}<span class="sr-only">(current)</span>{% endblock %}
 {% block content %}
+
     <div class="container">
         <br><br>
         <h1>Explore</h1>
