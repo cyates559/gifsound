@@ -9,7 +9,7 @@ def create_user_table():
 def get_user(user_id):
     session = get_session()
     try:
-        user = session.query(User).filter(User.id == user_id)
+        user = session.query(User).filter(User.id == user_id).all()
     except exc.SQLAlchemyError:
         return False
     return user

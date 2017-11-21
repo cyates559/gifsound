@@ -18,7 +18,10 @@ def get_all_user_links(user_id):
 def get_all_links():
     session = get_session()
     try:
-        links = session.query(Link, Link.name, Link.link, Link.views)
+        links = session.query(
+            Link, Link.name, Link.full_link, Link.views,
+            Link.time_created
+        )
     except exc.SQLAlchemyError:
         return False
     return links
