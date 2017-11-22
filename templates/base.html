@@ -12,9 +12,12 @@ Flask Bootstrap Usage: https://pythonhosted.org/Flask-Bootstrap/basic-usage.html
     {% block head %}
         <meta charset="UTF-8">
         <title>{% block title %} {% endblock %} - GifSound</title>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/7.0.3/sweetalert2.all.min.js"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/7.0.3/sweetalert2.css">
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ag-grid/10.1.0/ag-grid.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-        <script src="/static/main.js"></script>
+        <script src="/static/grid.js"></script>
+        <script src="/static/login.js"></script>
         <link rel="stylesheet" href="https://bootswatch.com/4/lux/bootstrap.min.css">
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js"
                 integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh"
@@ -46,6 +49,20 @@ Flask Bootstrap Usage: https://pythonhosted.org/Flask-Bootstrap/basic-usage.html
                     <a class="nav-link" href="/about">About {% block aboutnav %}{% endblock %}</a>
                 </li>
             </ul>
+            <form class="form-inline my-2 my-lg-0">
+                <ul class="navbar-nav mr-auto">
+                    {% block signup %}
+                        <li class="nav-item ">
+                            <a class="nav-link" class='signup' id="signup">Sign Up</a>
+                        </li>
+                    {% endblock %}
+                    {% block login %}
+                        <li class="nav-item ">
+                            <a class="nav-link" class='login' href="/" id="login">Log In</a>
+                        </li>
+                    {% endblock %}
+                </ul>
+            </form>
         </div>
     </nav>
 {% endblock %}

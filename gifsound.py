@@ -5,17 +5,21 @@
 # PURPOSE: This file controls all the flask routes for gifsound
 
 # TODO: Instead of putting all the data in the url for posts, maybe we can parse JSON?
-# TODO: Create some internal API Key hash or use some other library for routes that use DB
 # TODO: Create Shell Scripts to seed the database
 # TODO: Update http methods to be correct.
-
-from flask import Flask, render_template, jsonify, redirect, url_for
+from flask import Flask, render_template, jsonify, redirect, url_for, session, json
 from config import settings
+import os
 from Controller.link_controller import *
 from Controller.user_controller import *
+from flask_bcrypt import Bcrypt
+from flask_login import LoginManager,login_user, login_required
+
 
 app = Flask(__name__)
-
+login_manager = LoginManager()
+login_manager.init_app(app)
+bcrpty = Bcrypt(app)
 
 @app.route('/')
 def index():
@@ -32,6 +36,73 @@ def about():
     return render_template('about.html')
 
 
+@app.route('/dashboard')
+@login_required
+def dashboard():
+    return None
+
+# following guide on
+# https://flask-login.readthedocs.io/en/latest/#flask_login.LoginManager.user_loader
+# Might not need with flask_login
+# TODO: This needs to return the user object
+@login_manager.user_loader
+def load_user(user_id):
+    return User.get(user_id)
+
+# This route needs to query database and hash user inputed password and compare
+# If they are the same then it is valid and we can login user.
+@app.route('/login/<username>/<password>', methods=['GET','POST'])
+def login():
+    data = []
+    code = 0
+    user = 'QUERY FROM DB'
+    if True: #isValidUser()
+        login_user(user)
+        data['login'] = 'true'
+        code = 200
+    else
+        data['login'] = 'false'
+        code = 401
+
+    return app.response_class(
+        response=json.dumps(data),
+        status=code,
+        mimetype='application/json'
+    )
+
+# Might not need this route with flask_login
+@app.route('/api/verify/login/<api_key>', methods=['POST'])
+def verify_login():
+    data = {"logged_in": True}
+    code = 0
+    if 'user' in session:
+        data["logged_in"] = True
+        code = 200
+    else:
+        data["logged_in"] = False
+        code = 403
+        return app.response_class(
+            response=json.dumps(data),
+            status=code,
+            mimetype='application/json'
+        )
+
+
+@app.route('/api/logout/<api_key>', methods=['POST'])
+def logout():
+    data = {}
+    session.pop('user')
+    data['logged_out'] = True
+    code = 200
+    return app.response_class(
+        response=json.dumps(data),
+        status=code,
+        mimetype='application/json'
+    )
+
+# There needs to be verification of the data being passed.
+# This route might be hit by xss if SQLAlchemy doesn't escape data.
+# Also passwords need to be hashed. Right now there are being stored as plain text.
 @app.route('/api/register/<user_name>/<email>/<password>/<int:role>/<api_key>',
            methods=['POST', 'PUT', 'GET'])
 def register(user_name, email, password, role, api_key):
@@ -46,6 +117,10 @@ def create_gif_sound(name, user_id, full_link, gif_link, yt_id, api_key):
     create_link(name, user_id, full_link, gif_link, yt_id)
 
 
+# This route will be used for the dashboard page.
+# Before returning any data we want to make sure the user is logged in
+# and the user id begin requested is the current user session.
+# e.g We don't want anyone to hit this endpoint and get user data.
 @app.route('/api/user_info/<int:user_id>/<api_key>', methods=['POST', 'GET'])
 def get_user_info(user_id, api_key):
     user = get_user(user_id)
@@ -54,12 +129,13 @@ def get_user_info(user_id, api_key):
     return result.data
 
 
-@app.route('/api/user_info/<api_key>', methods=['POST', 'GET'])
+# this route seems insecure. Might want to remove before production
+@app.route('/api/user_info', methods=['POST', 'GET'])
 def get_all_users_info(api_key):
     return get_all_users()
 
 
-@app.route('/api/links/<api_key>', methods=['POST', 'GET'])
+@app.route('/api/links', methods=['POST', 'GET'])
 def get_links(api_key):
     links = get_all_links()
     schema = LinkSchema(many=True)
@@ -72,7 +148,8 @@ def smoke_test(test):
     return 'hi'
 
 
-@app.route('/api/create_tables/<api_key>', methods=['POST', 'PUT'])
+#This route is for debugging, will be removed in productions
+@app.route('/api/create_tables/<api_key>', methods=['POST', 'PUT', 'GET'])
 def create_tables(api_key):
     create_user_table()
     create_link_table()
