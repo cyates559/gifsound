@@ -13,13 +13,14 @@ import os
 from Controller.link_controller import *
 from Controller.user_controller import *
 from flask_bcrypt import Bcrypt
-from flask_login import LoginManager,login_user, login_required
-
+from flask_login import LoginManager, login_user, login_required
 
 app = Flask(__name__)
+app.secret_key = os.urandom(24)
 login_manager = LoginManager()
 login_manager.init_app(app)
-bcrpty = Bcrypt(app)
+bcrypt = Bcrypt(app)
+
 
 @app.route('/')
 def index():
@@ -39,7 +40,8 @@ def about():
 @app.route('/dashboard')
 @login_required
 def dashboard():
-    return None
+    return 'hi'
+
 
 # following guide on
 # https://flask-login.readthedocs.io/en/latest/#flask_login.LoginManager.user_loader
@@ -47,21 +49,21 @@ def dashboard():
 # TODO: This needs to return the user object
 @login_manager.user_loader
 def load_user(user_id):
-    return User.get(user_id)
+    return get_user(user_id)
 
-# This route needs to query database and hash user inputed password and compare
-# If they are the same then it is valid and we can login user.
-@app.route('/login/<username>/<password>', methods=['GET','POST'])
-def login():
-    data = []
+
+@app.route('/login/<username>/<password>', methods=['GET', 'POST'])
+def login(username, password):
+    data = {}
     code = 0
-    user = 'QUERY FROM DB'
-    if True: #isValidUser()
+    user = get_user_by_username(username)
+    if bcrypt.check_password_hash(user.password, password):
         login_user(user)
-        data['login'] = 'true'
+        data['login'] = True
+        data['name'] = username
         code = 200
-    else
-        data['login'] = 'false'
+    else:
+        data['login'] = False
         code = 401
 
     return app.response_class(
@@ -70,25 +72,8 @@ def login():
         mimetype='application/json'
     )
 
-# Might not need this route with flask_login
-@app.route('/api/verify/login/<api_key>', methods=['POST'])
-def verify_login():
-    data = {"logged_in": True}
-    code = 0
-    if 'user' in session:
-        data["logged_in"] = True
-        code = 200
-    else:
-        data["logged_in"] = False
-        code = 403
-        return app.response_class(
-            response=json.dumps(data),
-            status=code,
-            mimetype='application/json'
-        )
 
-
-@app.route('/api/logout/<api_key>', methods=['POST'])
+@app.route('/api/logout', methods=['POST'])
 def logout():
     data = {}
     session.pop('user')
@@ -100,13 +85,13 @@ def logout():
         mimetype='application/json'
     )
 
-# There needs to be verification of the data being passed.
-# This route might be hit by xss if SQLAlchemy doesn't escape data.
-# Also passwords need to be hashed. Right now there are being stored as plain text.
-@app.route('/api/register/<user_name>/<email>/<password>/<int:role>/<api_key>',
-           methods=['POST', 'PUT', 'GET'])
-def register(user_name, email, password, role, api_key):
-    response = create_user(user_name, email, password, role)
+
+@app.route('/register/<user_name>/<email>/<password>',
+           methods=['POST', 'PUT'])
+def register(user_name, email, password):
+    pw_hash = bcrypt.generate_password_hash(password).decode('utf-8')
+    response = create_user(app, user_name, email, pw_hash, 1)
+    return response
 
 
 @app.route('/api/create/link/<name>/<int:user_id>/<path:full_link>/<path:gif_link>/<yt_id>/<api_key>',
@@ -148,11 +133,18 @@ def smoke_test(test):
     return 'hi'
 
 
-#This route is for debugging, will be removed in productions
-@app.route('/api/create_tables/<api_key>', methods=['POST', 'PUT', 'GET'])
+# This route is for debugging, will be removed in productions
+@app.route('/api/create_tables/<api_key>', methods=['POST', 'PUT'])
 def create_tables(api_key):
     create_user_table()
     create_link_table()
+    data = {'status': 'success'}
+    code = 200
+    return app.response_class(
+        response=json.dumps(data),
+        status=code,
+        mimetype='application/json'
+    )
 
 
 @app.route('/testview/')

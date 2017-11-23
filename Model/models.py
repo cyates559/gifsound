@@ -1,9 +1,8 @@
-from sqlalchemy import Column, Integer, String, DateTime, ForeignKey, Boolean
+from sqlalchemy import Column, Integer, String, DateTime, ForeignKey
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
 from sqlalchemy.ext.declarative import declarative_base
 from marshmallow import Schema, fields
-from flask_bcrypt import Bcrypt
 
 Base = declarative_base()
 
@@ -14,32 +13,30 @@ class User(Base):
     def __int__(self, username, email, password, role):
         self.username = username
         self.email = email
-        self._password = password
+        self.password = password
         self.role = role
 
     user_id = Column('id', Integer, primary_key=True)
     username = Column('username', String(255), unique=True)
     email = Column('email', String(255), unique=True)
-    _password = Column('password', String(60))
+    password = Column('password', String(500))
     role = Column('role', Integer)
     views = Column('view_count', Integer, default=0)
-    is_active = Column('is_active', Boolean, default=True)
-    is_authenticated = Column('is_authenicated', Boolean, default=False)
-    is_anonymous = Column('is_anonymous', Boolean, default=False)
     time_created = Column(DateTime(timezone=True), server_default=func.now())
     time_updated = Column(DateTime(timezone=True), onupdate=func.now())
     link = relationship("Link", backref='user', single_parent=True, lazy='joined')
 
+    def is_authenticated(self):
+        return True
+
+    def is_active(self):
+        return True
+
+    def is_anonymous(self):
+        return False
+
     def get_id(self):
-        return self.user_id
-
-
-    @hybrid_property
-    def password(self):
-        return self.password()
-
-
-
+        return str(self.user_id)
 
 
 class Link(Base):
@@ -74,6 +71,3 @@ class UserSchema(Schema):
     views = fields.Integer()
     time_created = fields.DateTime()
     link = fields.Nested('LinkSchema', many=True)
-
-
-

@@ -1,2 +1,2 @@
-RANDOM=1234
-curl -X GET 127.0.0.1:5000/api/register/username$RANDOM/email$RANDOM/password/3/somekeyzz
+RANDOM=12313
+curl -X POST 127.0.0.1:5000/api/register/test/email$RANDOM/password/3/somekeyzz
