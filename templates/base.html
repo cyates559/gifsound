@@ -1,4 +1,4 @@
-<!-- 
+<!--
 AUTHORS: Erick Shaffer
 DATE: 11/14/2017
 PURPOSE: This file contains the base layout for the gifsound web pages
@@ -42,25 +42,42 @@ Flask Bootstrap Usage: https://pythonhosted.org/Flask-Bootstrap/basic-usage.html
                 <li class="nav-item {% block activehome %}{% endblock %}">
                     <a class="nav-link" href="/">Home{% block homenav %}{% endblock %} </a>
                 </li>
+                {% if current_user.is_authenticated %}
+                    <li class="nav-item ">
+                        <a class="nav-link {% block activedashboard %}{% endblock %}" href='/dashboard'
+                           class='dashboardnav' id="dashboardnav">Dashboard</a>
+                    </li>
+                {% endif %}
                 <li class="nav-item {% block activefeatured %}{% endblock %}">
                     <a class="nav-link" href="featured">Featured {% block featurednav %}{% endblock %}</a>
                 </li>
                 <li class="nav-item {% block activeabout %}{% endblock %}">
                     <a class="nav-link" href="/about">About {% block aboutnav %}{% endblock %}</a>
                 </li>
+
             </ul>
             <form class="form-inline my-2 my-lg-0">
                 <ul class="navbar-nav mr-auto">
-                    {% block signup %}
-                        <li class="nav-item ">
-                            <a class="nav-link" class='signup' id="signup">Sign Up</a>
-                        </li>
+                    {% block rightnav %}
+                        {% if current_user.is_authenticated %}
+                            <li class="nav-item ">
+                                <a class="nav-link" class='dashboard' href='/dashboard'
+                                   id="dashboard">{{ current_user.username }}</a>
+                            </li>
+                            <li class="nav-item ">
+                                <a class="nav-link" class='logout' id="logout">Logout</a>
+                            </li>
+                        {% else %}
+                            <li class="nav-item ">
+                                <a class="nav-link" class='signup' id="signup">Sign Up</a>
+                            </li>
+                            <li class="nav-item ">
+                                <a class="nav-link" class='login' id="login">Log In</a>
+                            </li>
+                        {% endif %}
+
                     {% endblock %}
-                    {% block login %}
-                        <li class="nav-item ">
-                            <a class="nav-link" class='login' href="/" id="login">Log In</a>
-                        </li>
-                    {% endblock %}
+
                 </ul>
             </form>
         </div>
@@ -77,7 +94,7 @@ Flask Bootstrap Usage: https://pythonhosted.org/Flask-Bootstrap/basic-usage.html
             <p class="float-right"><a href="#">Back to top</a></p>
             <p>© 2017 Erick Shaffer, Carsen Yates ·<a
                     href="https://github.com/eshaffer321/">Erick Github</a> · <a href="https://github.com/Fatburger3">Carsen
-                GitHub</a> </p>
+                GitHub</a></p>
         </footer>
     </div>
 {% endblock %}

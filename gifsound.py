@@ -4,16 +4,13 @@
 # DATE: 11/14/2017
 # PURPOSE: This file controls all the flask routes for gifsound
 
-# TODO: Instead of putting all the data in the url for posts, maybe we can parse JSON?
-# TODO: Create Shell Scripts to seed the database
-# TODO: Update http methods to be correct.
-from flask import Flask, render_template, jsonify, redirect, url_for, session, json
-from config import settings
+
+from flask import Flask, render_template, redirect, url_for, json
 import os
 from Controller.link_controller import *
 from Controller.user_controller import *
 from flask_bcrypt import Bcrypt
-from flask_login import LoginManager, login_user, login_required
+from flask_login import LoginManager, login_user, login_required, logout_user, current_user
 
 app = Flask(__name__)
 app.secret_key = os.urandom(24)
@@ -40,13 +37,9 @@ def about():
 @app.route('/dashboard')
 @login_required
 def dashboard():
-    return 'hi'
+    return render_template('dashboard.html')
 
 
-# following guide on
-# https://flask-login.readthedocs.io/en/latest/#flask_login.LoginManager.user_loader
-# Might not need with flask_login
-# TODO: This needs to return the user object
 @login_manager.user_loader
 def load_user(user_id):
     return get_user(user_id)
@@ -57,7 +50,7 @@ def login(username, password):
     data = {}
     code = 0
     user = get_user_by_username(username)
-    if bcrypt.check_password_hash(user.password, password):
+    if user and bcrypt.check_password_hash(user.password, password):
         login_user(user)
         data['login'] = True
         data['name'] = username
@@ -73,10 +66,10 @@ def login(username, password):
     )
 
 
-@app.route('/api/logout', methods=['POST'])
+@app.route('/logout', methods=['POST', 'GET'])
 def logout():
     data = {}
-    session.pop('user')
+    logout_user()
     data['logged_out'] = True
     code = 200
     return app.response_class(
@@ -90,23 +83,42 @@ def logout():
            methods=['POST', 'PUT'])
 def register(user_name, email, password):
     pw_hash = bcrypt.generate_password_hash(password).decode('utf-8')
-    response = create_user(app, user_name, email, pw_hash, 1)
-    return response
+    user = get_user_by_username(user_name)
+    data = {}
+    code = 0
+    if user is not None:
+        data = {"signup": "Username is taken"}
+        code = 400
+        data["username"] = "None"
+    else:
+        code = 200
+        user = create_user(app, user_name, email, pw_hash, 1)
+        return user
+    return app.response_class(
+        response=json.dumps(data),
+        status=code,
+        mimetype='application/json'
+    )
 
 
-@app.route('/api/create/link/<name>/<int:user_id>/<path:full_link>/<path:gif_link>/<yt_id>/<api_key>',
+@app.route('/api/create/link/<name>/<path:full_link>/<path:gif_link>/<yt_id>',
            methods=['POST', 'PUT'])
-def create_gif_sound(name, user_id, full_link, gif_link, yt_id, api_key):
-    if user_id > 0 and not None:
-        user = get_user_info(user_id, api_key)
-    create_link(name, user_id, full_link, gif_link, yt_id)
+def create_gif_sound(name, full_link, gif_link, yt_id):
+    data = {"status": "Success"}
+    code = 200
+    if current_user.is_authenticated:
+        create_link(name, current_user.user_id, full_link, gif_link, yt_id)
+    else:
+        create_link(name, None, full_link, gif_link, yt_id)
+    return app.response_class(
+        response=json.dumps(data),
+        status=code,
+        mimetype='application/json'
+    )
 
 
-# This route will be used for the dashboard page.
-# Before returning any data we want to make sure the user is logged in
-# and the user id begin requested is the current user session.
-# e.g We don't want anyone to hit this endpoint and get user data.
-@app.route('/api/user_info/<int:user_id>/<api_key>', methods=['POST', 'GET'])
+@app.route('/api/user_info', methods=['POST', 'GET'])
+@login_required
 def get_user_info(user_id, api_key):
     user = get_user(user_id)
     schema = UserSchema(many=True)
@@ -114,14 +126,13 @@ def get_user_info(user_id, api_key):
     return result.data
 
 
-# this route seems insecure. Might want to remove before production
-@app.route('/api/user_info', methods=['POST', 'GET'])
-def get_all_users_info(api_key):
-    return get_all_users()
+# @app.route('/api/user_info', methods=['POST', 'GET'])
+# def get_all_users_info(api_key):
+#     return get_all_users()
 
 
-@app.route('/api/links', methods=['POST', 'GET'])
-def get_links(api_key):
+@app.route('/api/links', methods=['POST'])
+def get_links():
     links = get_all_links()
     schema = LinkSchema(many=True)
     result = schema.dumps(links)

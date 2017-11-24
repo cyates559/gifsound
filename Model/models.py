@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, DateTime, ForeignKey
+from sqlalchemy import Column, Integer, String, DateTime, ForeignKey, Boolean
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
 from sqlalchemy.ext.declarative import declarative_base
@@ -21,6 +21,7 @@ class User(Base):
     email = Column('email', String(255), unique=True)
     password = Column('password', String(500))
     role = Column('role', Integer)
+    # active = Column(Boolean, nullable=False)
     views = Column('view_count', Integer, default=0)
     time_created = Column(DateTime(timezone=True), server_default=func.now())
     time_updated = Column(DateTime(timezone=True), onupdate=func.now())
