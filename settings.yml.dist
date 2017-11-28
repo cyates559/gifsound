@@ -4,8 +4,9 @@ development:
     user:
     password:
     db:
+    port:
     engine: dialect+driver://username:password@host:port/database
-
+    engine_debug: True
   api_keys:
     internal_api:
     giphy_api:
@@ -18,9 +19,11 @@ production:
     user:
     password:
     db:
+    port:
     engine: dialect+driver://username:password@host:port/database
+    engine_debug: False
   api_keys:
     internal_api:
     giphy_api:
   other:
-    debug: false
+    debug: False

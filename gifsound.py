@@ -10,6 +10,7 @@
 # TODO: Update http methods to be correct.
 
 from flask import Flask, render_template, jsonify, redirect, url_for
+from config import settings
 from Controller.link_controller import *
 from Controller.user_controller import *
 
@@ -37,7 +38,7 @@ def register(user_name, email, password, role, api_key):
     response = create_user(user_name, email, password, role)
 
 
-@app.route('/api/create/link/<name>/<user_id>/<path:full_link>/<path:gif_link>/<yt_id>/<api_key>',
+@app.route('/api/create/link/<name>/<int:user_id>/<path:full_link>/<path:gif_link>/<yt_id>/<api_key>',
            methods=['POST', 'PUT'])
 def create_gif_sound(name, user_id, full_link, gif_link, yt_id, api_key):
     if user_id > 0 and not None:
@@ -93,4 +94,4 @@ def view_combo(gif_url, yt_id):
 
 
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=settings['development']['other']['debug'])

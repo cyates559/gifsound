@@ -32,7 +32,7 @@ class Link(Base):
     full_link = Column('full_link', String(500))
     gif_link = Column('gif_link', String(500))
     yt_link = Column('yt_link', String(500))
-    views = Column('view_count', Integer)
+    views = Column('view_count', Integer, default=0)
     time_created = Column(DateTime(timezone=True), server_default=func.now())
     time_updated = Column(DateTime(timezone=True), onupdate=func.now())
 
