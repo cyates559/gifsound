@@ -33,8 +33,8 @@ function selectAllRows() {
 
 function jsonLoad(callback) {
         $.ajax({
-            type: "GET",
-            url: "/api/links/somekeyzz",
+            type: "POST",
+            url: "/api/links",
             contentType: "application/json; charset=utf-8",
             success: function (data) {
                 callback(JSON.parse(data));
@@ -44,3 +44,6 @@ function jsonLoad(callback) {
             }
         });
 }
+
+
+

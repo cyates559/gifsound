@@ -2,3 +2,5 @@ flask
 pyyaml
 sqlalchemy
 marshmallow
+flask-bcrypt
+flask-login
