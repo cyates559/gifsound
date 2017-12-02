@@ -1,7 +1,13 @@
 document.addEventListener("DOMContentLoaded", function () {
     var columnDefs = [
         {headerName: "Name", field: "name"},
-        {headerName: "Link", field: "full_link"},
+        {
+            headerName: "Link",
+            field: "full_link",
+            cellRenderer: function(params) {
+                return "<a href= '" + encodeURIComponent(params.value) + "' target='_blank'>"+ params.value+ "</a>"
+}
+        },
         {headerName: "views", field: "views"},
         {headerName: "Date Added", field: "time_created"}
     ];
@@ -22,6 +28,7 @@ document.addEventListener("DOMContentLoaded", function () {
     new agGrid.Grid(eGridDiv, gridOptions);
 
     jsonLoad(function(data) {
+        console.log(data)
         gridOptions.api.setRowData(data);
     })
 });
@@ -37,6 +44,7 @@ function jsonLoad(callback) {
             url: "/api/links",
             contentType: "application/json; charset=utf-8",
             success: function (data) {
+                // console.log(data);
                 callback(JSON.parse(data));
             },
             error: function (jqXHR, textStatus, errorThrown) {

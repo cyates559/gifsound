@@ -86,27 +86,32 @@ Flask Bootstrap Usage: https://pythonhosted.org/Flask-Bootstrap/basic-usage.html
 		<!-- Submit Boxes for Links -->
 		<form>
 			<div class="row">
-				<div class="col-md-5">
+				<div class="col-md-4">
 					<div class="form-group">
 						<input id="gif_input" type="text" class="form-control" aria-describedby="gifLink">
 						<small class="form-text text-muted">Enter Gif Link</small>
 					</div>
 				</div>
-				<div class="col-md-5">
+				<div class="col-md-4">
 					<div class="form-group">
 						<input id="yt_input" type="text" class="form-control" aria-describedby="youtubeLink">
 						<small class="form-text text-muted">Enter Youtube Link</small>
 					</div>
 				</div>
+                <div class="col-md-4">
+					<div class="form-group">
+						<input id="name" type="text" class="form-control" aria-describedby="name">
+						<small class="form-text text-muted">Give it a name</small>
+					</div>
+				</div>
 				<script type="text/javascript">
 					function create_combo()
 					{
+					    var n = document.getElementById('name').value;
 						var g = encodeURIComponent(document.getElementById('gif_input').value);
 						var y = encodeURIComponent(document.getElementById('yt_input').value);
-						console.log(g);
-						console.log(y);
 						// gif and yt need to escape
-						window.location.assign('/view/gif/' + g + '/yt/' + y + '/');
+						window.location.assign('/view/name/' + n + '/gif/' + g + '/yt/' + y + '/');
 					}
 				</script>
 				<div class="col-md-2">
