@@ -104,20 +104,11 @@ def register(user_name, email, password):
 	)
 
 
-@app.route('/api/create/link/<name>/<path:full_link>/<path:gif_link>/<yt_id>',
-		   methods=['POST', 'PUT'])
 def create_gif_sound(name, full_link, gif_link, yt_id):
-	data = {"status": "Success"}
-	code = 200
 	if current_user.is_authenticated:
 		create_link(name, current_user.user_id, full_link, gif_link, yt_id)
 	else:
 		create_link(name, None, full_link, gif_link, yt_id)
-	return app.response_class(
-		response=json.dumps(data),
-		status=code,
-		mimetype='application/json'
-	)
 
 
 @app.route('/api/user_info', methods=['POST', 'GET'])
@@ -129,11 +120,6 @@ def get_user_info(user_id, api_key):
 	return result.data
 
 
-# @app.route('/api/user_info', methods=['POST', 'GET'])
-# def get_all_users_info(api_key):
-#     return get_all_users()
-
-
 @app.route('/api/links', methods=['POST'])
 def get_links():
 	links = get_all_links()
@@ -141,10 +127,6 @@ def get_links():
 	result = schema.dumps(links)
 	return result
 
-
-@app.route('/smoke_test/<int:test>', methods=['POST', 'GET'])
-def smoke_test(test):
-	return 'hi'
 
 # This route is for debugging, will be removed in productions
 @app.route('/api/create_tables/<api_key>', methods=['POST', 'PUT'])
@@ -177,9 +159,28 @@ def view_combo(gif_url, yt_url):
 	showinfo = 1  # Enable Title and video controls
 	rel = 0  # Uhh I don't know
 	start = 0  # starting point of video
-	return render_template('view.html', gif=gif_url,
-		video=f'https://www.youtube.com/embed/{yt_id}?rel={rel}&amp;showinfo={showinfo}&amp;start={start}'
-	)
+	video = f'https://www.youtube.com/embed/{yt_id}?rel={rel}&amp;showinfo={showinfo}&amp;start={start}'
+	full_link = '/view/gif/' + gif_url + '/yt/' + yt_url
+	if check_if_exists(full_link):
+		update_link_view_count(full_link)
+	return render_template('view.html', gif=gif_url, video=video)
+
+
+@app.route('/view/name/<name>/gif/<path:gif_url>/yt/<path:yt_url>/')
+def create_view_combo(name, gif_url, yt_url):
+	gif_url = unquote_url(gif_url)
+	yt_url = unquote_url(yt_url)
+	yt_id = youtube.get_video_id(yt_url)
+	showinfo = 1  # Enable Title and video controls
+	rel = 0  # Uhh I don't know
+	start = 0  # starting point of video
+	video = f'https://www.youtube.com/embed/{yt_id}?rel={rel}&amp;showinfo={showinfo}&amp;start={start}'
+	full_link = '/view/gif/' + gif_url + '/yt/' + yt_url
+	if check_if_exists(full_link):
+		update_link_view_count(full_link)
+	else:
+		create_gif_sound(name, full_link, gif_url, yt_url)
+	return render_template('view.html', gif=gif_url, video=video)
 
 if __name__ == '__main__':
 	app.run(debug=settings['development']['other']['debug'])
