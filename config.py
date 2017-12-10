@@ -4,7 +4,7 @@
 ## TITLE: config.py
 ## ABSTRACT: This file parses the settings.yml file
 ## AUTHORS: Erick Shaffer
-## DATE: 
+## DATE: 11/19/2017
 import yaml
 
 with open('settings.yml', 'r') as f:
