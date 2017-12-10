@@ -1,8 +1,10 @@
 #!pyenv/bin/python
 
-# AUTHORS: Erick Shaffer, Carsen Yates
-# DATE: 11/14/2017
-# PURPOSE: This file controls all the flask routes for gifsound
+## COURSE: CST 205 - Multimedia Design & Programming
+## TITLE: gifsound.py
+## ABSTRACT: This file controls all the flask routes for gifsound
+## AUTHORS: Erick Shaffer, Carsen Yates
+## DATE: 11/14/2017
 
 # TODO: Instead of putting all the data in the url for posts, maybe we can parse JSON?
 # TODO: Create some internal API Key hash or use some other library for routes that use DB
@@ -76,11 +78,12 @@ def create_tables(api_key):
     create_user_table()
     create_link_table()
 
-
+# For testing the view_combo route (below)
 @app.route('/testview/')
 def test_view_combo():
     return redirect(url_for('view_combo', gif_url='https://media4.giphy.com/avatars/100soft/WahNEDdlGjRZ.gif', yt_id='Hug0rfFC_L8'))
 
+# Display this gif and this video together
 @app.route('/view/<path:gif_url>/<yt_id>/')
 def view_combo(gif_url, yt_id):
     showinfo = 1 # Enable Title and video controls
