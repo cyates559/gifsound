@@ -1,3 +1,9 @@
+
+## COURSE: CST 205 - Multimedia Design & Programming
+## TITLE: session_controller.py
+## ABSTRACT: 
+## AUTHORS: Erick Shaffer
+## DATE: 
 from sqlalchemy import create_engine
 from sqlalchemy import exc
 from sqlalchemy.orm import sessionmaker
