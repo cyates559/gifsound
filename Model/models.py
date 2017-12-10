@@ -4,12 +4,11 @@
 ## AUTHORS: Erick Shaffer
 ## DATE: 
 
-from sqlalchemy import Column, Integer, String, DateTime, ForeignKey
+from sqlalchemy import Column, Integer, String, DateTime, ForeignKey, Boolean, update, exists
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
 from sqlalchemy.ext.declarative import declarative_base
 from marshmallow import Schema, fields
-
 
 Base = declarative_base()
 
@@ -17,16 +16,34 @@ Base = declarative_base()
 class User(Base):
     __tablename__ = 'user'
 
-    id = Column('id', Integer, primary_key=True)
+    def __int__(self, username, email, password, role):
+        self.username = username
+        self.email = email
+        self.password = password
+        self.role = role
+
+    user_id = Column('id', Integer, primary_key=True)
     username = Column('username', String(255), unique=True)
     email = Column('email', String(255), unique=True)
-    password = Column('password', String(60))
+    password = Column('password', String(500))
     role = Column('role', Integer)
+    # active = Column(Boolean, nullable=False)
     views = Column('view_count', Integer, default=0)
-    status = Column('status', Integer, default=1)
     time_created = Column(DateTime(timezone=True), server_default=func.now())
     time_updated = Column(DateTime(timezone=True), onupdate=func.now())
     link = relationship("Link", backref='user', single_parent=True, lazy='joined')
+
+    def is_authenticated(self):
+        return True
+
+    def is_active(self):
+        return True
+
+    def is_anonymous(self):
+        return False
+
+    def get_id(self):
+        return str(self.user_id)
 
 
 class Link(Base):
@@ -38,7 +55,7 @@ class Link(Base):
     full_link = Column('full_link', String(500))
     gif_link = Column('gif_link', String(500))
     yt_link = Column('yt_link', String(500))
-    views = Column('view_count', Integer)
+    views = Column('view_count', Integer, default=0)
     time_created = Column(DateTime(timezone=True), server_default=func.now())
     time_updated = Column(DateTime(timezone=True), onupdate=func.now())
 
@@ -61,6 +78,3 @@ class UserSchema(Schema):
     views = fields.Integer()
     time_created = fields.DateTime()
     link = fields.Nested('LinkSchema', many=True)
-
-
-

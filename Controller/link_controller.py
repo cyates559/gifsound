@@ -33,13 +33,29 @@ def get_all_links():
     return links
 
 
-def get_link(link_id):
+def check_if_exists(full_link):
+    session = get_session()
+    val = session.query(exists().where(Link.full_link == full_link)).scalar()
+    session.close()
+    return val
+
+
+def get_link(full_link):
     session = get_session()
     try:
-        link = session.query(Link).filter(Link.id == link_id)
+        link = session.query(Link).filter(Link.full_link == full_link).first()
+        session.close()
     except exc.SQLAlchemyError:
         return None
     return link
+
+
+def update_link_view_count(full_link):
+    session = get_session()
+    link1 = session.query(Link).filter(Link.full_link == full_link).first()
+    link1.views += 1
+    session.commit()
+    session.close()
 
 
 def create_link(name, user_id, full_link, gif_link, yt_link):
@@ -54,4 +70,3 @@ def create_link(name, user_id, full_link, gif_link, yt_link):
         return True
     except exc.SQLAlchemyError:
         return False
-
