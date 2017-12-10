@@ -1,6 +1,11 @@
+## COURSE: CST 205 - Multimedia Design & Programming
+## TITLE: user_controller.py
+## ABSTRACT: 
+## AUTHORS: Erick Shaffer
+## DATE: 
+
 from Model.models import *
 from Controller.session_controller import *
-
 
 def create_user_table():
     Base.metadata.create_all(bind=get_engine())
