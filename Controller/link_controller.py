@@ -1,3 +1,9 @@
+## COURSE: CST 205 - Multimedia Design & Programming
+## TITLE: link_controller.py
+## ABSTRACT: 
+## AUTHORS: Erick Shaffer
+## DATE: 
+
 from Controller.session_controller import *
 from Model.models import *
 
