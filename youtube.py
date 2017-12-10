@@ -1,11 +1,10 @@
 #!pyenv/bin/python
 
-## TITLE: youtube.py
 ## COURSE: CST 205 - Multimedia Design & Programming
+## TITLE: youtube.py
+## ABSTRACT: This file parses YouTube Video URLs and extracts the Video ID.
 ## AUTHORS: Carsen Yates
 ## DATE: 11/15/2017
-## ABSTRACT: This file parses YouTube Video URLs and extracts the Video ID
-## The Video ID can be further used to embed YouTube videos into webpages dynamically. 
 
 import urllib.parse
 
