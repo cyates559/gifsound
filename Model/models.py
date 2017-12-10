@@ -1,3 +1,9 @@
+## COURSE: CST 205 - Multimedia Design & Programming
+## TITLE: models.py
+## ABSTRACT: 
+## AUTHORS: Erick Shaffer
+## DATE: 
+
 from sqlalchemy import Column, Integer, String, DateTime, ForeignKey
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
