@@ -16,6 +16,8 @@ Users can create combinations of a Youtube video with a gif, allowing a quick, c
   1. Create a settings.yml file for your configuration.  You can use settings.yml.dist as an example.
   1. Create a python 3.6 environment inside your working directory: `python3.6 -m venv pyenv`
   1. Activate the environment using `source activate`
+  1. On Linux, you might need to install the package `libmysqlclient-dev`
+    For Ubuntu: `sudo apt install libmysqlclient-dev`
   1. Install requirements: `pip install -r requirements.txt` (The environment must be activated)
   1. Run the program using one of the following commands
     * `python gifsound.py` (The environment must be activated)
