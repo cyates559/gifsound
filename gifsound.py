@@ -187,4 +187,4 @@ def create_view_combo(name, gif_url, yt_url):
 	return render_template('view.html', gif=gif_url, video=video)
 
 if __name__ == '__main__':
-	app.run(debug=settings['development']['other']['debug'])
+	app.run()

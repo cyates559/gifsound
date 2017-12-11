@@ -2,4 +2,4 @@
 ## TITLE: __init__.py
 ## ABSTRACT: This file is needed for Model to be considered a Python Module
 ## AUTHORS: Erick Shaffer
-## DATE: 
+## DATE: 12/10/17
