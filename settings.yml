@@ -1,0 +1,29 @@
+development:
+  mysql:
+    host: gs-dev.cjzyegeqvbre.us-west-2.rds.amazonaws.com
+    user: admin
+    password: cpdhEV3bqWa4TNVEAJSTqxSf
+    db: gs
+    port: 3306
+    engine: 'mysql://admin:5znhSC3y5s7NgkWw2eu3cShx@gs-dev.cjzyegeqvbre.us-west-2.rds.amazonaws.com:3306/gs'
+    engine_debug: False
+  api_keys:
+    internal_api: 8dedf5f948d7151dd5c2c203bd52bedd200af07d8f7564e981b4bfce93d0b2a9
+    giphy_api:
+  other:
+    debug: True
+
+production:
+  mysql:
+    host:
+    user:
+    password:
+    db:
+    port:
+    engine:
+    engine_debug: False
+  api_keys:
+    internal_api: 21c7d5fab3e6b2de71d125ef77a5d3c844dd38f88c20920d47db372474a7b086
+    giphy_api:
+  other:
+    debug: False

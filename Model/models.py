@@ -1,8 +1,9 @@
 ## COURSE: CST 205 - Multimedia Design & Programming
 ## TITLE: models.py
-## ABSTRACT: 
+## ABSTRACT: ORM models used by sql alchemy. These are the models that are used to
+## create database schema and interact with database with objects.
 ## AUTHORS: Erick Shaffer
-## DATE: 
+## DATE: 12/10/17
 
 from sqlalchemy import Column, Integer, String, DateTime, ForeignKey, Boolean, update, exists
 from sqlalchemy.orm import relationship
@@ -12,7 +13,7 @@ from marshmallow import Schema, fields
 
 Base = declarative_base()
 
-
+# Used with flask_login to handel sessions and user login.
 class User(Base):
     __tablename__ = 'user'
 

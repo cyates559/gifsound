@@ -1,6 +1,5 @@
 pyenv/*
 .idea
-settings.yml
 __pycache__
 
 # Byte-compiled / optimized / DLL files

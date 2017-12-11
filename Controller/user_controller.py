@@ -1,8 +1,9 @@
 ## COURSE: CST 205 - Multimedia Design & Programming
 ## TITLE: user_controller.py
-## ABSTRACT: 
+## ABSTRACT: User Controller to handel interactions with the database. Used for
+## creating retrieving and handling user data. Responds with json to frontend.
 ## AUTHORS: Erick Shaffer
-## DATE: 
+## DATE: 12/10/17
 
 import json
 from Model.models import *

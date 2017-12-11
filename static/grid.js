@@ -1,3 +1,8 @@
+// COURSE: CST 205 - Multimedia Design & Programming
+// TITLE: grid.js
+// ABSTRACT: Used to receive json data and populate ag-grid.
+// AUTHORS: Erick Shaffer
+// DATE: 12/10/17
 document.addEventListener("DOMContentLoaded", function () {
     var columnDefs = [
         {headerName: "Name", field: "name"},

@@ -1,3 +1,8 @@
+// COURSE: CST 205 - Multimedia Design & Programming
+// TITLE: login.js
+// ABSTRACT: Used for logging in user and signing up users. Performs valdation on user inputs.
+// AUTHORS: Erick Shaffer
+// DATE: 12/10/17
 $(document).ready(function () {
     $("#login").on("click", function (e) {
         e.preventDefault();

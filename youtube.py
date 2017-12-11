@@ -1,5 +1,4 @@
 #!pyenv/bin/python
-
 ## COURSE: CST 205 - Multimedia Design & Programming
 ## TITLE: youtube.py
 ## ABSTRACT: This file parses YouTube Video URLs and extracts the Video ID.

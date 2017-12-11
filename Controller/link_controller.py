@@ -1,8 +1,10 @@
 ## COURSE: CST 205 - Multimedia Design & Programming
 ## TITLE: link_controller.py
-## ABSTRACT: 
+## ABSTRACT: Controllers all functions for gifsound creation and retrieval in the database.
+## Updates view counter when a gifsound is viewed.
 ## AUTHORS: Erick Shaffer
 ## DATE: 
+
 
 from Controller.session_controller import *
 from Model.models import *

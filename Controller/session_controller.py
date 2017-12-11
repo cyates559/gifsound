@@ -1,9 +1,10 @@
 
 ## COURSE: CST 205 - Multimedia Design & Programming
 ## TITLE: session_controller.py
-## ABSTRACT: 
+## ABSTRACT: Controller for sqlaclehmy. This commits items into the database and creates
+## a database engine to be used by sqlalchemy.
 ## AUTHORS: Erick Shaffer
-## DATE: 
+## DATE: 12/10/2017
 from sqlalchemy import create_engine
 from sqlalchemy import exc
 from sqlalchemy.orm import sessionmaker

@@ -6,6 +6,8 @@
 ## AUTHORS: Erick Shaffer, Carsen Yates
 ## DATE: 11/14/2017
 
+#Github: https://github.com/Fatburger3/gifsound
+
 
 from flask import Flask, render_template, redirect, url_for, json
 import os
@@ -187,4 +189,4 @@ def create_view_combo(name, gif_url, yt_url):
 	return render_template('view.html', gif=gif_url, video=video)
 
 if __name__ == '__main__':
-	app.run(debug=settings['development']['other']['debug'])
+	app.run()
