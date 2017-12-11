@@ -6,6 +6,8 @@
 ## AUTHORS: Erick Shaffer, Carsen Yates
 ## DATE: 11/14/2017
 
+#Github: https://github.com/Fatburger3/gifsound
+
 
 from flask import Flask, render_template, redirect, url_for, json
 import os
