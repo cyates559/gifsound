@@ -33,3 +33,5 @@ Users can create combinations of a Youtube video with a gif, allowing a quick, c
     * Looping (for either gif or video)
   * Adding giphy api integration and other apis for retrieving videos or gifs
   * Allowing other sources for sound files or videos besides just youtube
+  * Have improved statistics and reports about gifsounds and their views
+  * Fully implement user dashboard page to see their created gifsounds.
