@@ -165,7 +165,7 @@ def view_combo(gif_url, yt_url):
 	showinfo = 1  # Enable Title and video controls
 	rel = 0  # Uhh I don't know
 	start = 0  # starting point of video
-	video = f'https://www.youtube.com/embed/{yt_id}?rel={rel}&amp;showinfo={showinfo}&amp;start={start}'
+	video = f'https://www.youtube.com/embed/{yt_id}?rel={rel}&amp;autoplay=1&amp;loop=1&amp;showinfo={showinfo}&amp;start={start}'
 	full_link = '/view/gif/' + gif_url + '/yt/' + yt_url
 	if check_if_exists(full_link):
 		update_link_view_count(full_link)
@@ -180,7 +180,7 @@ def create_view_combo(name, gif_url, yt_url):
 	showinfo = 1  # Enable Title and video controls
 	rel = 0  # Uhh I don't know
 	start = 0  # starting point of video
-	video = f'https://www.youtube.com/embed/{yt_id}?rel={rel}&amp;showinfo={showinfo}&amp;start={start}'
+	video = f'https://www.youtube.com/embed/{yt_id}?rel={rel}&amp;autoplay=1&amp;loop=1&amp;showinfo={showinfo}&amp;start={start}'
 	full_link = '/view/gif/' + gif_url + '/yt/' + yt_url
 	if check_if_exists(full_link):
 		update_link_view_count(full_link)

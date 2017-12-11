@@ -14,15 +14,22 @@ Flask Bootstrap Usage: https://pythonhosted.org/Flask-Bootstrap/basic-usage.html
 
 {% block content %}
 
-<img src={{ gif }} />
-<iframe
-	width="560"
-	height="315"
-	src={{ video }}
-	frameborder="0" 
-	<!-- allowfullscreen -->
->
-	
-</iframe>
+<table align="center">
+	<tr>
+		<td>
+			<img src={{ gif }} style="text-align: center;" />
+		</td>
+		<td>
+			<iframe
+				style="text-align: center;"
+				width="560"
+				height="315"
+				src={{ video }}
+				frameborder="0" 
+				<!-- allowfullscreen -->
+			/>
+		</td>
+	</tr>
+</table>
 
 {% endblock %}
